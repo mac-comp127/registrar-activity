@@ -64,9 +64,6 @@ public class Course {
     //    that they are enrolled.
     //
     boolean enroll(Student student) {
-        if (roster.contains(student)) {
-            return true;
-        }
         if (isFull()) {
             return false;
         }

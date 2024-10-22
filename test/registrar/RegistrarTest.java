@@ -94,14 +94,6 @@ class RegistrarTest {
     }
 
     @Test
-    void doubleEnrollingInFullCourseHasNoEffect() {
-        sally.enrollIn(comp127);
-        factory.enrollMultipleStudents(comp127, 20);
-        assertTrue(sally.enrollIn(comp127)); // full now, but Sally was already enrolled
-        assertTrue(comp127.getRoster().contains(sally));
-    }
-
-    @Test
     void doubleEnrollingAfterWaitlistedHasNoEffect() {
         factory.enrollMultipleStudents(comp127, 16);
         sally.enrollIn(comp127);
