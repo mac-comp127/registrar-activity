@@ -1,6 +1,8 @@
 package registrar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A course that can enroll students.
@@ -11,7 +13,7 @@ public class Course {
 
     private final String catalogNumber;
     private final String title;
-    private Set<Student> roster = new HashSet<>();
+    private List<Student> roster = new ArrayList<>();
     private int enrollmentLimit = UNLIMITED_ENROLLMENT;
 
     public Course(String catalogNumber, String title) {
@@ -48,7 +50,7 @@ public class Course {
     /**
      * Returns all students currently enrolled in this course.
      */
-    public Set<Student> getRoster() {
+    public List<Student> getRoster() {
         return roster;
     }
 

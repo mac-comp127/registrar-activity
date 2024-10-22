@@ -1,6 +1,8 @@
 package registrar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A student at a school.
@@ -8,7 +10,7 @@ import java.util.*;
 @SuppressWarnings("WeakerAccess")
 public class Student {
     final private String name;
-    private Set<Course> courses = new HashSet<>();
+    private List<Course> courses = new ArrayList<>();
 
     public Student(String name) {
         this.name = Objects.requireNonNull(name, "name");
@@ -21,7 +23,7 @@ public class Student {
     /**
      * Returns all courses this student is currently enrolled in.
      */
-    public Set<Course> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 

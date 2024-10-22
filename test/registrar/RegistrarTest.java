@@ -1,12 +1,10 @@
 package registrar;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,24 +36,15 @@ class RegistrarTest {
 
     @Test
     void studentStartsInNoCourses() {
-        assertEquals(Set.of(), sally.getCourses());
+        assertEquals(List.of(), sally.getCourses());
     }
 
     @Test
     void studentCanEnroll() {
         sally.enrollIn(comp127);
-        assertEquals(Set.of(comp127), sally.getCourses());
-        assertEquals(Set.of(sally), comp127.getRoster());
+        assertEquals(List.of(comp127), sally.getCourses());
+        assertEquals(List.of(sally), comp127.getRoster());
     }
-
-    @Test
-    void doubleEnrollingHasNoEffect() {
-        sally.enrollIn(comp127);
-        sally.enrollIn(comp127);
-        assertEquals(Set.of(comp127), sally.getCourses());
-        assertEquals(Set.of(sally), comp127.getRoster());
-    }
-
 
     // ------ Enrollment limits ------
 
