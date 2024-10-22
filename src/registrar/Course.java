@@ -12,7 +12,6 @@ public class Course {
     private final String catalogNumber;
     private final String title;
     private Set<Student> roster = new HashSet<>();
-    private List<Student> waitlist = new ArrayList<>();
     private int enrollmentLimit = UNLIMITED_ENROLLMENT;
 
     public Course(String catalogNumber, String title) {
@@ -53,13 +52,6 @@ public class Course {
         return roster;
     }
 
-    /**
-     * Returns students waiting to be enrolled.
-     */
-    public List<Student> getWaitlist() {
-        return waitlist;
-    }
-
     // 👋 Note that this method isn’t public! 👋
     //
     // It does not say “public” or “private,” which makes it visible to other classes in the same
@@ -76,7 +68,6 @@ public class Course {
             return true;
         }
         if (isFull()) {
-            addToWaitlist(student);
             return false;
         }
         roster.add(student);
@@ -88,12 +79,6 @@ public class Course {
      */
     public boolean isFull() {
         return roster.size() >= enrollmentLimit;
-    }
-
-    private void addToWaitlist(Student s) {
-        if (!waitlist.contains(s)) {
-            waitlist.add(s);
-        }
     }
 
     @Override

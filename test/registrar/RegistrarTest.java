@@ -62,7 +62,6 @@ class RegistrarTest {
     @Test
     void enrollmentLimitDefaultsToUnlimited() {
         factory.enrollMultipleStudents(math6, 1000);
-        assertEquals(List.of(), math6.getWaitlist());
         assertEquals(1000, math6.getRoster().size());
     }
 
@@ -76,7 +75,6 @@ class RegistrarTest {
     void enrollingUpToLimitAllowed() {
         factory.enrollMultipleStudents(comp127, 15);
         assertTrue(sally.enrollIn(comp127));
-        assertEquals(List.of(), comp127.getWaitlist());
         assertTrue(comp127.getRoster().contains(sally));
     }
 
@@ -84,7 +82,6 @@ class RegistrarTest {
     void enrollingPastLimitPushesToWaitlist() {
         factory.enrollMultipleStudents(comp127, 16);
         assertFalse(sally.enrollIn(comp127));
-        assertEquals(List.of(sally), comp127.getWaitlist());
         assertFalse(comp127.getRoster().contains(sally));
     }
 
@@ -94,7 +91,6 @@ class RegistrarTest {
         sally.enrollIn(comp127);
         fred.enrollIn(comp127);
         zongo.enrollIn(comp127);
-        assertEquals(List.of(sally, fred, zongo), comp127.getWaitlist());
     }
 
     @Test
@@ -103,7 +99,6 @@ class RegistrarTest {
         factory.enrollMultipleStudents(comp127, 20);
         assertTrue(sally.enrollIn(comp127)); // full now, but Sally was already enrolled
         assertTrue(comp127.getRoster().contains(sally));
-        assertFalse(comp127.getWaitlist().contains(sally));
     }
 
     @Test
@@ -114,8 +109,6 @@ class RegistrarTest {
         zongo.enrollIn(comp127);
         fred.enrollIn(comp127);
         assertFalse(sally.enrollIn(comp127));
-
-        assertEquals(List.of(sally, fred, zongo), comp127.getWaitlist());
     }
 
     @Test
@@ -130,7 +123,7 @@ class RegistrarTest {
     // ------ Post-test invariant check ------
     //
     // This is a bit persnickety for day-to-day testing, but these kinds of checks are appropriate
-    // for security sensitive or otherwise mission critical code. Some people even add them as
+    // for security sensitive or otherwise mission-critical code. Some people even add them as
     // runtime checks in the code, instead of writing them as tests.
 
     @AfterEach
@@ -150,40 +143,15 @@ class RegistrarTest {
     }
 
     private void checkCourseInvariants(Course c) {
-        Set<Student> waitlistUnique = new HashSet<>(c.getWaitlist());
-        assertEquals(
-            waitlistUnique.size(),
-            c.getWaitlist().size(),
-            c + " waitlist contains duplicates: " + c.getWaitlist());
-
-        waitlistUnique.retainAll(c.getRoster());
-        assertEquals(
-            Set.of(),
-            waitlistUnique,
-            c + " contains students who are both registered and waitlisted");
-
         for (Student s : c.getRoster()) {
             assertTrue(
                 s.getCourses().contains(c),
                 c + " thinks " + s + " is enrolled, but " + s + " doesn't think they're in the class");
         }
 
-        for (Student s : c.getWaitlist()) {
-            assertFalse(
-                s.getCourses().contains(c),
-                c + " lists " + s + " as waitlisted, but " + s + " thinks they are enrolled");
-        }
-
         assertTrue(
             c.getRoster().size() <= c.getEnrollmentLimit(),
             c + " has an enrollment limit of " + c.getEnrollmentLimit()
                 + ", but has " + c.getRoster().size() + " students");
-
-        if (c.getRoster().size() < c.getEnrollmentLimit()) {
-            assertEquals(
-                List.of(),
-                c.getWaitlist(),
-                c + " is not full, but has students waitlisted");
-        }
     }
 }
