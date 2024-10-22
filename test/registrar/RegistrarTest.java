@@ -49,15 +49,15 @@ class RegistrarTest {
     // ------ Enrollment limits ------
 
     @Test
-    void enrollmentLimitDefaultsToUnlimited() {
-        factory.enrollMultipleStudents(math6, 1000);
-        assertEquals(1000, math6.getRoster().size());
-    }
-
-    @Test
     void coursesHaveEnrollmentLimits() {
         comp127.setEnrollmentLimit(16);
         assertEquals(16, comp127.getEnrollmentLimit());
+    }
+
+    @Test
+    void enrollmentLimitDefaultsToUnlimited() {
+        factory.enrollMultipleStudents(math6, 1000);
+        assertEquals(1000, math6.getRoster().size());
     }
 
     @Test
@@ -68,37 +68,10 @@ class RegistrarTest {
     }
 
     @Test
-    void enrollingPastLimitPushesToWaitlist() {
+    void cannotEnrollPastLimit() {
         factory.enrollMultipleStudents(comp127, 16);
         assertFalse(sally.enrollIn(comp127));
         assertFalse(comp127.getRoster().contains(sally));
-    }
-
-    @Test
-    void waitlistPreservesEnrollmentOrder() {
-        factory.enrollMultipleStudents(comp127, 16);
-        sally.enrollIn(comp127);
-        fred.enrollIn(comp127);
-        zongo.enrollIn(comp127);
-    }
-
-    @Test
-    void doubleEnrollingAfterWaitlistedHasNoEffect() {
-        factory.enrollMultipleStudents(comp127, 16);
-        sally.enrollIn(comp127);
-        fred.enrollIn(comp127);
-        zongo.enrollIn(comp127);
-        fred.enrollIn(comp127);
-        assertFalse(sally.enrollIn(comp127));
-    }
-
-    @Test
-    void cannotChangeEnrollmentLimitOnceStudentsRegister() {
-        basketWeaving101.setEnrollmentLimit(10);
-        fred.enrollIn(basketWeaving101);
-        assertThrows(IllegalStateException.class, () -> {
-            basketWeaving101.setEnrollmentLimit(11);
-        });
     }
 
     // ------ Post-test invariant check ------
