@@ -62,7 +62,7 @@ public class Course {
     // Q: Is enroll() is part of the API or not?
     // A: It is part of the internal API that Course provides to Student, but it is not part of
     //    the public API. The Student and Course classes collaborate to preserve their invariants:
-    //    only Student can call this method, and the enrollment succeeds, then the student records
+    //    only Student can call this method, and if the enrollment succeeds, then the student records
     //    that they are enrolled.
     //
     boolean enroll(Student student) {
