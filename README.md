@@ -1,6 +1,6 @@
 # Registrar, Part 1
 
-This is an in-class activity. [Directions are here](https://comp127.innig.net/activities/registrar_1).
+This is an in-class activity. [Directions are here](https://comp127.macalester.digital/latest/activities/registrar_1).
 
 ## Contract of the `Student` and `Course` API
 
